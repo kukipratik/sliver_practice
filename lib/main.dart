@@ -5,7 +5,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,82 +21,9 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.black,
           body: CustomScrollView(
             slivers: <Widget>[
-              SliverAppBar(
+              SliverPersistentHeader(
                 pinned: true,
-                expandedHeight: 350,
-                backgroundColor: const Color.fromRGBO(77, 175, 86, 1),
-                leading: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.arrow_back),
-                  iconSize: 20,
-                  color: Colors.black,
-                ),
-                flexibleSpace: FlexibleSpaceBar(
-                  stretchModes: const <StretchMode>[
-                    StretchMode.zoomBackground,
-                    StretchMode.fadeTitle,
-                  ],
-                  background: const DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                          Color.fromRGBO(10, 10, 10, 1),
-                          Color.fromRGBO(20, 20, 20, 1),
-                          Color.fromRGBO(30, 30, 30, 1),
-                          Color.fromRGBO(31, 131, 68, 1),
-                          Color.fromRGBO(77, 175, 86, 1),
-                          Color.fromRGBO(100, 201, 125, 1),
-                        ],
-                      ),
-                    ),
-                  ),
-                  centerTitle: true,
-                  title: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     // Expanded(
-                      //     //   flex: 63,
-                      //     //   child: Container(
-                      //     //     // Add your search bar widget here
-
-                      //     //     color: Colors
-                      //     //         .red, // Replace with your search bar widget
-                      //     //   ),
-                      //     // ),
-                      //     // Container(
-                      //     //   color: Colors.black,
-                      //     //   height: 40,
-                      //     //   width: 200,
-                      //     // ),
-                      //     // Expanded(
-                      //     //   flex: 3,
-                      //     //   child: IconButton(
-                      //     //     onPressed: () {
-                      //     //       // Handle filter icon press
-                      //     //     },
-                      //     //     icon: const Icon(
-                      //     //       Icons.filter,
-                      //     //     ),
-                      //     //   ),
-                      //     // ),
-                      //   ],
-                      // ),
-                      SizedBox(
-                        height: 130,
-                        width: 120,
-                        child: Image.network(
-                          'https://images.pexels.com/photos/794494/pexels-photo-794494.jpeg?cs=srgb&dl=pexels-anthony-%F0%9F%93%B7%F0%9F%93%B9%F0%9F%99%82-794494.jpg&fm=jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                delegate: _SliverAppBarDelegate(),
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
@@ -115,4 +42,72 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    const double maxExtent = 350.0;
+    const double minExtent = 0.0;
+    final double offset = shrinkOffset.clamp(minExtent, maxExtent);
+    final double percentage = 1.0 - (offset / maxExtent);
+
+    return SizedBox(
+      height: maxExtent - offset,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Color.fromRGBO(0, 0, 0, 1),
+                  Color.fromRGBO(35, 55, 46, 1),
+                  Color.fromRGBO(31, 131, 68, 1),
+                  Color.fromRGBO(77, 175, 86, 1),
+                  Color.fromRGBO(100, 201, 125, 1),
+                ],
+              ),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                height: 190 * percentage,
+                width: 170 * percentage,
+                child: Image.network(
+                  'https://images.pexels.com/photos/794494/pexels-photo-794494.jpeg?cs=srgb&dl=pexels-anthony-%F0%9F%93%B7%F0%9F%93%B9%F0%9F%99%82-794494.jpg&fm=jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          ),
+          Positioned(
+            top: 8,
+            left: 8,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 350.0;
+
+  @override
+  double get minExtent => 0.0;
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) => true;
 }
