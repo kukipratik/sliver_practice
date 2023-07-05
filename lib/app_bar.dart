@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class SliverSliver extends StatefulWidget {
-  const SliverSliver({super.key});
+  const SliverSliver({Key? key}) : super(key: key);
 
   @override
   State<SliverSliver> createState() => _SliverSliverState();
 }
 
 class _SliverSliverState extends State<SliverSliver> {
+  double imageHeight = 0.0;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -17,32 +19,37 @@ class _SliverSliverState extends State<SliverSliver> {
           slivers: <Widget>[
             SliverAppBar(
               pinned: true,
-              expandedHeight: 300,
-              backgroundColor: const Color.fromRGBO(77, 175, 86, 1),
+              expandedHeight: 345,
+              centerTitle: false,
               flexibleSpace: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
                   double percentage =
-                      (constraints.maxHeight - kToolbarHeight) / 200;
+                      (constraints.maxHeight - kToolbarHeight) / 260;
                   percentage = percentage.clamp(0.0, 1.0);
 
-                  double imageHeight = 190 * (percentage);
-                  imageHeight = imageHeight.clamp(0.0, 190.0);
+                  imageHeight = 260 * (percentage);
+                  imageHeight = imageHeight.clamp(0.0, 210.0);
+                  List<Color> appbarColors = const [
+                    Color.fromARGB(255, 1, 39, 15),
+                    Color.fromARGB(255, 4, 84, 40),
+                    Color.fromARGB(255, 3, 93, 43),
+                  ];
+                  if (imageHeight < 10) {
+                    appbarColors = const [
+                      Color.fromARGB(255, 3, 37, 17),
+                      Color.fromARGB(255, 1, 39, 15),
+                    ];
+                  }
 
                   return Stack(
                     fit: StackFit.expand,
                     children: [
-                      const DecoratedBox(
+                      DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
-                            colors: [
-                              Color.fromRGBO(33, 65, 50, 1),
-                              Color.fromRGBO(28, 118, 61, 1),
-                              Color.fromRGBO(31, 131, 68, 1),
-                              Color.fromRGBO(77, 175, 86, 1),
-                            ],
-                            stops: [0.0, 0.33, 0.66, 1.0],
+                            colors: appbarColors,
                           ),
                         ),
                       ),
@@ -51,27 +58,96 @@ class _SliverSliverState extends State<SliverSliver> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            // Container(
-                            //   height: 50,
-                            //   width: 300,
-                            //   color: Colors.red,
-                            // ),
-                            if (imageHeight > 50)
-                              SizedBox(
-                                height: imageHeight,
-                                width: 170 * percentage,
-                                child: Image.network(
-                                  'https://images.pexels.com/photos/794494/pexels-photo-794494.jpeg?cs=srgb&dl=pexels-anthony-%F0%9F%93%B7%F0%9F%93%B9%F0%9F%99%82-794494.jpg&fm=jpg',
-                                  fit: BoxFit.cover,
+                            if (percentage == 1)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 17.0, horizontal: 25),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      color: Colors.white.withOpacity(0.12),
+                                      width: 295,
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(7.0),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.search,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "Find in playlist.",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 12,
+                                    ),
+                                    Container(
+                                      color: Colors.white.withOpacity(0.12),
+                                      width: 65,
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(9.8),
+                                        child: Center(
+                                            child: Text(
+                                          "Filters",
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            if (imageHeight == 0)
-                              const Text(
-                                'Appbar',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                            if (imageHeight > 70)
+                              AnimatedOpacity(
+                                opacity: percentage,
+                                duration: const Duration(milliseconds: 100),
+                                child: Container(
+                                  height: imageHeight,
+                                  width: 470 * percentage * 0.53,
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color.fromARGB(
+                                                255, 31, 55, 41)
+                                            .withOpacity(0.5),
+                                        spreadRadius: 4,
+                                        blurRadius: 15,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Image.network(
+                                    'https://images.pexels.com/photos/794494/pexels-photo-794494.jpeg?cs=srgb&dl=pexels-anthony-%F0%9F%93%B7%F0%9F%93%B9%F0%9F%99%82-794494.jpg&fm=jpg',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            if (imageHeight < 40)
+                              const AnimatedOpacity(
+                                opacity: 1.0,
+                                duration: Duration(milliseconds: 300),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 78.0),
+                                    child: Text(
+                                      'Appbar',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                           ],
@@ -100,11 +176,11 @@ class _SliverSliverState extends State<SliverSliver> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color.fromRGBO(34, 61, 48, 1),
-                      Color.fromARGB(255, 16, 34, 25),
-                      Color.fromARGB(255, 0, 0, 0),
-                      Color.fromARGB(255, 0, 0, 0),
-                      Color.fromARGB(255, 10, 20, 15),
+                      Color.fromARGB(255, 1, 39, 15),
+                      Colors.black,
+                      Colors.black,
+                      Colors.black,
+                      Colors.black,
                     ],
                   ),
                 ),
