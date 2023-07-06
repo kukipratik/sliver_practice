@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SliverSliver extends StatefulWidget {
-  const SliverSliver({Key? key}) : super(key: key);
+class CustomeSliverAppbar extends StatefulWidget {
+  const CustomeSliverAppbar({Key? key}) : super(key: key);
 
   @override
-  State<SliverSliver> createState() => _SliverSliverState();
+  State<CustomeSliverAppbar> createState() => _CustomeSliverAppbarState();
 }
 
-class _SliverSliverState extends State<SliverSliver> {
+class _CustomeSliverAppbarState extends State<CustomeSliverAppbar> {
   double imageHeight = 0.0;
 
   @override
