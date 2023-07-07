@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sliver_practice/app_bar.dart';
+// import 'package:sliver_practice/app_bar.dart';
+import 'package:sliver_practice/search_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const CustomeSliverAppbar(),
+      home: const SliverSearchPage(),
     );
   }
 }
