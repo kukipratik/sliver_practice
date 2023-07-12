@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sliver_practice/search_container.dart';
 
 class SliverSearchPage extends StatefulWidget {
   const SliverSearchPage({Key? key}) : super(key: key);
@@ -42,34 +43,43 @@ class _SliverSearchPageState extends State<SliverSearchPage> {
                                 fontWeight: FontWeight.w700),
                           ),
                         ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 11.5, left: 18, right: 18),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(4.0)),
-                          width: double.infinity,
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 14, horizontal: 8),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.search,
-                                  color: Colors.black,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Artists, songs, or podcasts",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600),
-                                )
-                              ],
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchContainer()),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 11.5, left: 18, right: 18),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4.0)),
+                            width: double.infinity,
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 8),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.search,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Artists, songs, or podcasts",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
