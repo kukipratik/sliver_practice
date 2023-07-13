@@ -10,11 +10,23 @@ class SearchContainer extends StatefulWidget {
 class _SearchContainerState extends State<SearchContainer> {
   bool expandSearch = true;
   bool isInitialColor = true;
+  int selectedTag = 0;
 
   @override
   Widget build(BuildContext context) {
     const fillColor = Color.fromARGB(255, 104, 104, 104);
     // print("build again = $expandSearch ");
+    List<String> dummyList = [
+      "Top",
+      "Playlists",
+      "Songs",
+      "Artists",
+      "Profiles",
+      "Albums",
+      "Podcasts & Shows",
+      "Episodes",
+      "Genres & Moods"
+    ];
 
     return SafeArea(
       child: Scaffold(
@@ -118,9 +130,50 @@ class _SearchContainerState extends State<SearchContainer> {
                         style: TextStyle(color: Colors.white),
                       ),
                     if (!isInitialColor)
-                      const Text(
-                        "Top, Playlists, profiles, songs",
-                        style: TextStyle(color: Colors.white),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: SizedBox(
+                          height: 38,
+                          child: ListView.builder(
+                              itemCount: dummyList.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedTag = index;
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: selectedTag == index
+                                            ? Colors.green
+                                            : Colors.black,
+                                        borderRadius: BorderRadius.circular(
+                                            15.0), // Adjust the value as needed
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0, vertical: 10),
+                                          child: Text(
+                                            dummyList[index],
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
                       )
                   ],
                 ),
