@@ -102,21 +102,18 @@ class _LibraryPageState extends State<LibraryPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(15.0),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1.0,
-                                ),
-                              ),
-                              child: const Icon(
-                                Icons.cancel,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    selectedIndex = -1;
+                                    selectedTags = [];
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.cancel,
+                                  color: Colors.white,
+                                )),
+                            // const SizedBox(width: 8),
                             Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: Container(
