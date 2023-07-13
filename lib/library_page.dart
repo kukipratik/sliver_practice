@@ -52,6 +52,8 @@ class _LibraryPageState extends State<LibraryPage> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
+
+            //filter tags
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 14),
@@ -225,10 +227,63 @@ class _LibraryPageState extends State<LibraryPage> {
                         ),
                       ),
               ),
-            )
+            ),
+
+            //list here...
+            const Expanded(child: DragableList()),
           ],
         ),
       ),
+    );
+  }
+}
+
+class DragableList extends StatefulWidget {
+  const DragableList({Key? key}) : super(key: key);
+
+  @override
+  State<DragableList> createState() => _DragableListState();
+}
+
+class _DragableListState extends State<DragableList> {
+  List<String> items = List.generate(10, (index) => "Item ${index + 1}");
+
+  @override
+  Widget build(BuildContext context) {
+    return ReorderableListView(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      children: items.map((item) {
+        return ListTile(
+          key: Key(item),
+          tileColor: Colors.black,
+          title: Row(
+            children: [
+              const Icon(
+                Icons.drag_handle,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                item,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+      onReorder: (int oldIndex, int newIndex) {
+        setState(() {
+          if (newIndex > oldIndex) {
+            newIndex -= 1;
+          }
+          final item = items.removeAt(oldIndex);
+          items.insert(newIndex, item);
+        });
+      },
     );
   }
 }
