@@ -15,6 +15,8 @@ class _SearchContainerState extends State<SearchContainer> {
   @override
   Widget build(BuildContext context) {
     const fillColor = Color.fromARGB(255, 104, 104, 104);
+    final ScrollController _scrollController = ScrollController();
+
     // print("build again = $expandSearch ");
     List<String> dummyList = [
       "Top",
@@ -133,10 +135,11 @@ class _SearchContainerState extends State<SearchContainer> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: SizedBox(
-                          height: 38,
-                          child: ListView.builder(
+                            height: 38,
+                            child: ListView.builder(
                               itemCount: dummyList.length,
                               scrollDirection: Axis.horizontal,
+                              controller: _scrollController,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
@@ -144,6 +147,15 @@ class _SearchContainerState extends State<SearchContainer> {
                                     onTap: () {
                                       setState(() {
                                         selectedTag = index;
+                                        if (index < dummyList.length - 1) {
+                                          _scrollController.animateTo(
+                                            index *
+                                                80.0, // Adjust the value as needed to control the scroll position
+                                            duration: const Duration(
+                                                milliseconds: 500),
+                                            curve: Curves.ease,
+                                          );
+                                        }
                                       });
                                     },
                                     child: Container(
@@ -151,8 +163,8 @@ class _SearchContainerState extends State<SearchContainer> {
                                         color: selectedTag == index
                                             ? Colors.green
                                             : Colors.black,
-                                        borderRadius: BorderRadius.circular(
-                                            15.0), // Adjust the value as needed
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
                                         border: Border.all(
                                           color: Colors.grey,
                                           width: 1.0,
@@ -172,8 +184,8 @@ class _SearchContainerState extends State<SearchContainer> {
                                     ),
                                   ),
                                 );
-                              }),
-                        ),
+                              },
+                            )),
                       )
                   ],
                 ),
