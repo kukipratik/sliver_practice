@@ -15,7 +15,7 @@ class _SearchContainerState extends State<SearchContainer> {
   @override
   Widget build(BuildContext context) {
     const fillColor = Color.fromARGB(255, 104, 104, 104);
-    final ScrollController _scrollController = ScrollController();
+    final ScrollController scrollController = ScrollController();
 
     // print("build again = $expandSearch ");
     List<String> dummyList = [
@@ -139,7 +139,7 @@ class _SearchContainerState extends State<SearchContainer> {
                             child: ListView.builder(
                               itemCount: dummyList.length,
                               scrollDirection: Axis.horizontal,
-                              controller: _scrollController,
+                              controller: scrollController,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
@@ -148,7 +148,7 @@ class _SearchContainerState extends State<SearchContainer> {
                                       setState(() {
                                         selectedTag = index;
                                         if (index < dummyList.length - 1) {
-                                          _scrollController.animateTo(
+                                          scrollController.animateTo(
                                             index *
                                                 80.0, // Adjust the value as needed to control the scroll position
                                             duration: const Duration(
